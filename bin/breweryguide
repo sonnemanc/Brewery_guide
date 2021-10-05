@@ -1,0 +1,32 @@
+require_relative '../config/environment'
+
+
+puts "Hello, welcome to Corbans brewery guide!"
+puts ""
+puts "Please enter your username."
+#will prompt for username here once basic functions built up.
+puts "Please enter your selection to view breweries."
+puts ""
+puts "1. View by State."
+puts "2. View by Type."
+puts "3. Search by name."
+
+input = gets.strip
+if input == "1"
+    puts "Please enter the State you wish to view."
+    puts "Ex. San Diego, New York, Ohio"
+    puts " "
+    user_input = gets
+    example = GetBreweries.new.names_by_state(user_input)
+    example
+    puts ""
+    puts "Enter 'm' for more breweries."
+    puts "If you would like more information about a brewery"
+    puts "please enter its number."
+
+
+
+    elsif input =="2"
+    elsif input == "3"
+end
+
