@@ -1,4 +1,4 @@
-require './lib/scraper.rb'
+require './lib/getbrews.rb'
 
 class Breweries
     

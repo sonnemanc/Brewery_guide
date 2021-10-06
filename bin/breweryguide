@@ -1,34 +1,87 @@
 require_relative '../config/environment'
 
-2.times do puts ""
-end
-puts "|------------------------------------------------|"
-puts "| Hello, welcome to Corbans brewery guide!       |"
-puts "|                                                |"
-#will prompt for username here once basic functions built up.
-puts "|Please enter your selection to view breweries.  |"
-puts "|                                                |"
-puts "| 1. View by State.                              |"             
-puts "| 2. View by Type.                               |"
-puts "| 3. Search by name.                             |"
-puts "|------------------------------------------------|"
-2.times do puts ""
+def guide
+    welcome
+    input = gets.strip
+ #------------------------------------------------------------------ #State search
+    if input == "1"  
+        puts ""
+        puts "|------------------------------------------------|"
+        puts "|   Please enter the State you wish to view.     |"
+        puts "|     Ex. Washington, New York, New Mexico.      |"
+        puts "|                                                |"
+        puts "|------------------------------------------------|"
+        2.times do puts ""
+        end
+    user_input = gets.strip
+    puts "+------------------------------------------------+"
+    State.new.select_by_state(user_input)
+        loop do
+            selection_prompt
+            choice = gets.strip
+            if choice == "y" || choice == "Y"
+                State.new.select_by_state(user_input)
+            elsif choice == "menu" || choice == "Menu"
+                guide
+            elsif choice =="n" || choice == "N"
+                puts ""
+                puts "Cheers!" 
+                break
+            else
+                "Please enter a valid selection"
+            end
+        end
+ #--------------------------------------------------------------------- #City search.
+    elsif input =="2" 
+        puts ""
+        puts "|------------------------------------------------|"
+        puts "|    Please enter the City you wish to view.     |"
+        puts "|        Ex. Seattle, San Diego, Denver.         |"
+        puts "|                                                |"
+        puts "|------------------------------------------------|"
+        2.times do puts ""
+        end
+    user_input = gets.strip
+    puts "+------------------------------------------------+"
+ #--------------------------------------------------------------------- #Search by name.
+    elsif input == "3" 
+        puts ""
+        puts "|------------------------------------------------|"
+        puts "|          Please enter a Brewery name           |"
+        puts "|           Ex. Stones Throw Brewery,            |"
+        puts "|                                                |"
+        puts "|------------------------------------------------|"
+        2.times do puts ""
+        end
+    user_input = gets.strip
+    puts "+------------------------------------------------+"
+    end
 end
 
-input = gets.strip
-if input == "1"
-    puts ""
+def welcome
+    2.times do puts ""
+    end
     puts "|------------------------------------------------|"
-    puts "|Please enter the State you wish to view.        |"
-    puts "|Ex. Washington, New York, New Mexico.           |"
+    puts "| Hello, welcome to Corbans brewery guide!       |"
     puts "|                                                |"
+    puts "|Please enter your selection to view breweries.  |"
+    puts "|                                                |"
+    puts "| 1. View by State.                              |"             
+    puts "| 2. View by Type.                               |"
+    puts "| 3. Search by name.                             |"
     puts "|------------------------------------------------|"
     2.times do puts ""
     end
-    user_input = gets.strip
-    puts "+------------------------------------------------+"
-    result = GetBreweries.new.names_by_state(user_input)
-    elsif input =="2"
-    elsif input == "3"
 end
 
+def return_to_menu
+    guide
+end
+
+def selection_prompt
+    puts "Would you like to make a new selection?(y/n)"
+    puts "You can also return to main menu by entering 'menu'"
+    puts ""
+end
+
+guide

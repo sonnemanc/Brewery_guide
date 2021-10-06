@@ -1,7 +1,6 @@
 require 'net/http'
 require 'open-uri'
 require 'json'
-require 'pry'
 
 class GetBreweries
     attr_accessor   :name,   :street,     :city,   :state,  :phone,  :website_url
@@ -14,9 +13,15 @@ class GetBreweries
         breweries
     end
 
-    def select_by_state(user_input)
+    def list_by_state(user_input)
         get_breweries.select do |brewery|
             brewery["state"] == user_input
+        end
+    end
+
+    def list_by_city(user_input)
+        get_breweries.select do |brewery|
+            brewery["city"] == user_input
         end
     end
 
@@ -35,22 +40,19 @@ class GetBreweries
         end
     end
 
-    def names_by_state(user_input)
-        state_hash = {}
-        select_by_state(user_input).each_with_index do |brewery, index|
-            state_hash[index] = brewery["name"] #hash consists of numbers with assigned brewery names.
-            puts "#{index}. #{brewery["name"]}"
-        end  
+    def result_message
         puts ""  
         puts "+------------------------------------------------+"        
-        puts "|If you would like a breweries information       |"
-        puts "|please enter its number.                        |"
+        puts "|   If you would like to view a breweries        |"
+        puts "|    information please enter its number.        |"
         puts "+------------------------------------------------+"
-
-        desired_brewery = gets.to_i #input is the number assigned to brewery name, converted to integer
-        selection =state_hash[desired_brewery]
-        display_brewery(selection)
     end
+
+    def invalid
+        puts "I'm sorry please enter a valid selection."
+        sleep 2
+    end
+
 end
 #example = GetBreweries.new.names_by_state("California")
 #puts example
