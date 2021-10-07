@@ -25,7 +25,34 @@ class GetBreweries
         end
     end
 
+    def spelling?(user_input)
+        get_breweries.any? do |brewery|
+            brewery["state"] == user_input || brewery["city"] == user_input
+        end
+    end
 
+    def select(user_input)
+        loop do
+        choice = gets.strip
+        if choice == "y" || choice == "Y"
+            self.select_by(user_input)
+        elsif choice == "menu" || choice == "Menu"
+            Guide.new.guide
+        elsif choice =="n" || choice == "N"
+            puts ""
+            puts "Cheers!"
+            exit
+        else
+            "Please enter a valid selection"
+        end
+    end
+    end
+
+    def selection_prompt
+        puts "Would you like to make a new selection?(y/n)"
+        puts "You can also return to main menu by entering 'menu'"
+        puts ""
+    end
 
     def display_brewery(selection)
         get_breweries.detect do |brewery|
@@ -38,6 +65,7 @@ class GetBreweries
                 puts ""
             end
         end
+        selection_prompt
     end
 
     def result_message
@@ -50,9 +78,7 @@ class GetBreweries
 
     def invalid
         puts "I'm sorry please enter a valid selection."
-        sleep 2
     end
 
+
 end
-#example = GetBreweries.new.names_by_state("California")
-#puts example

@@ -1,19 +1,53 @@
 
 class State < GetBreweries
-    def select_by_state(user_input)
-        small_hash = {}
-        list_by_state(user_input).each_with_index do |brewery, index|
-            small_hash[index + 1] = brewery["name"]
-            puts "#{index + 1}. #{brewery["name"]}"
-        end  
-        result_message
-        desired_brewery = gets.to_i
-        if small_hash.key?(desired_brewery)
-            display_brewery(small_hash[desired_brewery])
-        else
-            invalid
-            select_by_state(user_input)
-        end
 
+    @@small_hash = {}
+
+
+
+    def display_state(user_input)
+        list_by_state(user_input).each_with_index do |brewery, index|
+            @@small_hash[index + 1] = brewery["name"]
+            puts "#{index + 1}. #{brewery["name"]}"
+        end
+    
+        result_message
     end
+
+    
+    
+    def select_by(user_input)
+        display_state(user_input)
+        desired_brewery = gets.to_i
+            if @@small_hash.key?(desired_brewery)
+                display_brewery(@@small_hash[desired_brewery])
+            else
+                invalid
+                select_by(user_input)
+        end
+    end
+
+    def greeting
+        puts ""
+        puts "|------------------------------------------------|"
+        puts "|   Please enter the State you wish to view.     |"
+        puts "|     Ex. Washington, New York, New Mexico.      |"
+        puts "|                                                |"
+        puts "|------------------------------------------------|"
+        2.times do puts ""
+        end
+    end
+    
+    def search
+        greeting
+        user_input = gets.strip
+        if spelling?(user_input)
+            select_by(user_input)
+            select(user_input)
+        else
+            puts "I'm sorry that selection was invalid, please try again."
+            search
+        end
+    end
+
 end
