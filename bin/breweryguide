@@ -1,35 +1,26 @@
 require_relative '../config/environment'
 class Guide
-    def guide
+  def guide
     welcome
     input = gets.strip
- #------------------------------------------------------------------ #start State search
+     #------------------------------------------------------------------ #start State search
     if input == "1"  
-        state_search = State.new
-        state_search.search
-
- #--------------------------------------------------------------------- #Start city search.
+      state_search = State.new
+      state_search.search
+     #--------------------------------------------------------------------- #Start city search.
     elsif input =="2" 
-        city_search = City.new
-        city_search.search
-
-
- #--------------------------------------------------------------------- #Search by name.
+      city_search = City.new
+      city_search.search
+     #--------------------------------------------------------------------- #Search by name.
     elsif input == "3" 
-        puts ""
-        puts "|------------------------------------------------|"
-        puts "|          Please enter a Brewery name           |"
-        puts "|           Ex. Stones Throw Brewery,            |"
-        puts "|                                                |"
-        puts "|------------------------------------------------|"
-        2.times do puts ""
-        end
-    user_input = gets.strip
-    puts "+------------------------------------------------+"
+      name_search = GetBreweries.new
+      name_search.search
+    elsif input == "q"
+      exit
     end
-end
+  end
 
-def welcome
+  def welcome
     2.times do puts ""
     end
     puts "|------------------------------------------------|"
@@ -43,12 +34,7 @@ def welcome
     puts "|------------------------------------------------|"
     2.times do puts ""
     end
-end
-
-def return_to_menu
-    guide
-end
-
+  end
 end
 
 Guide.new.guide

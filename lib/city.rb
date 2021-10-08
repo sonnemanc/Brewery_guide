@@ -12,8 +12,6 @@ class City < GetBreweries
         result_message
     end
 
-    
-
     def select_by(user_input)
         display_city(user_input)
         desired_brewery = gets.to_i
@@ -39,12 +37,12 @@ class City < GetBreweries
     def search
         greeting
         user_input = gets.strip
-        if spelling?(user_input)
+        if valid?(user_input)
             select_by(user_input)
             select(user_input)
         else
-            puts "I'm sorry that selection was invalid, please try again."
-            search
+          invalid
+          search
         end
     end
 

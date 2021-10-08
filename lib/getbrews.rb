@@ -5,53 +5,85 @@ require 'json'
 class GetBreweries
     attr_accessor   :name,   :street,     :city,   :state,  :phone,  :website_url
     URL = "https://raw.githubusercontent.com/openbrewerydb/openbrewerydb/master/breweries.json"
-    
+
     def get_breweries
-        uri = URI.parse(URL)
-        response = Net::HTTP.get_response(uri)
-        breweries = JSON.parse(response.body)
-        breweries
+      uri = URI.parse(URL)
+      response = Net::HTTP.get_response(uri)
+      breweries = JSON.parse(response.body)
+      breweries
     end
 
     def list_by_state(user_input)
-        get_breweries.select do |brewery|
-            brewery["state"] == user_input
-        end
+      get_breweries.select do |brewery|
+          brewery["state"] == user_input
+      end
     end
 
     def list_by_city(user_input)
-        get_breweries.select do |brewery|
-            brewery["city"] == user_input
-        end
+      get_breweries.select do |brewery|
+        brewery["city"] == user_input
+      end
     end
 
-    def spelling?(user_input)
-        get_breweries.any? do |brewery|
-            brewery["state"] == user_input || brewery["city"] == user_input
-        end
+    def select_by(user_input)
+      if valid?(user_input)
+        display_brewery(user_input)
+      else
+        invalid
+        select_by(user_input)
+      end
+    end
+
+    def search
+      greeting
+      user_input = gets.strip
+      if valid?(user_input)
+        display_brewery(user_input)
+        select(user_input)
+      else
+        invalid
+        search
+      end
+    end
+
+    def valid?(user_input)
+      if user_input == "q" || user_input == "Q"
+        Guide.new.guide
+      elsif user_input.length > 1 && value_included?(user_input)
+        true
+      else
+        false
+      end
+    end
+
+    def value_included?(user_input)
+      get_breweries.each do |i|
+        return true if i.has_value?(user_input)
+      end
+        false
     end
 
     def select(user_input)
-        loop do
-        choice = gets.strip
-        if choice == "y" || choice == "Y"
-            self.select_by(user_input)
-        elsif choice == "menu" || choice == "Menu"
-            Guide.new.guide
-        elsif choice =="n" || choice == "N"
-            puts ""
-            puts "Cheers!"
-            exit
-        else
-            "Please enter a valid selection"
-        end
-    end
+      loop do
+      choice = gets.strip
+       if choice == "y" || choice == "Y"
+        select_by(user_input)
+       elsif choice == "q" || choice == "Q"
+        Guide.new.guide
+       elsif choice =="n" || choice == "N"
+        puts ""
+        puts "Cheers!"
+        exit
+       else
+        "Please enter a valid selection"
+       end
+      end
     end
 
     def selection_prompt
-        puts "Would you like to make a new selection?(y/n)"
-        puts "You can also return to main menu by entering 'menu'"
-        puts ""
+      puts "Would you like to make a new selection?(y/n)"
+      puts "You can also return to main menu by entering 'q'"
+      puts ""
     end
 
     def display_brewery(selection)
@@ -80,5 +112,14 @@ class GetBreweries
         puts "I'm sorry please enter a valid selection."
     end
 
-
+    def greeting
+      puts ""
+      puts "|------------------------------------------------|"
+      puts "|          Please enter a Brewery name           |"
+      puts "|           Ex. Stones Throw Brewery,            |"
+      puts "|                                                |"
+      puts "|------------------------------------------------|"
+      2.times do puts ""
+      end
+    end
 end
