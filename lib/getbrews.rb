@@ -67,12 +67,22 @@ class GetBreweries
       loop do
       choice = gets.strip
        if choice == "y" || choice == "Y"
-        select_by(user_input)
+        search
        elsif choice == "q" || choice == "Q"
         Guide.new.guide
        elsif choice =="n" || choice == "N"
         puts ""
-        puts "Cheers!"
+        puts"  .$' *.,  $*   "
+        puts"  _~._`_$*`_.~ _"
+        puts" |[___________]|"
+        puts"  | | |   | | |__"
+        puts"  | | |   | | |==;;"
+        puts"  | |Cheers!| |  ;]"
+        puts"  | | |   | | |  ;]"
+        puts"  | | |   | | |==;;"
+        puts"  | | |   | | |**/"
+        puts"  | | |   | | |"
+        puts"|[_____________]|"
         exit
        else
         "Please enter a valid selection"
@@ -123,3 +133,4 @@ class GetBreweries
       end
     end
 end
+  
