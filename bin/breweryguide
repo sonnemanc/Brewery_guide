@@ -1,40 +1,64 @@
 require_relative '../config/environment'
+
 class Guide
+
   def guide
-    welcome
+    CLI.welcome_msg
     input = gets.strip
-     #------------------------------------------------------------------ #start State search
+  #------------------------------------------------------------------ #start State search
     if input == "1"  
-      state_search = State.new
-      state_search.search
-     #--------------------------------------------------------------------- #Start city search.
+      state_search
+  #--------------------------------------------------------------------- #Start city search.
     elsif input =="2" 
-      city_search = City.new
-      city_search.search
-     #--------------------------------------------------------------------- #Search by name.
+      city_search
+  #--------------------------------------------------------------------- #Search by name.
     elsif input == "3" 
-      name_search = GetBreweries.new
-      name_search.search
+      name_search
     elsif input == "q"
       exit
     end
   end
 
-  def welcome
-    2.times do puts ""
+  def state_search
+    CLI.state_greeting
+    user_input = gets.strip
+    if Search.valid?(user_input)
+      Search.display_state(user_input)
+      Search.select_by(user_input)
+      Search.select(user_input)
+    else
+      CLI.invalid_msg
+      sleep 1
+      state_search
     end
-    puts "|------------------------------------------------|"
-    puts "| Hello, welcome to Corbans brewery guide!       |"
-    puts "|                                                |"
-    puts "|Please enter your selection to view breweries.  |"
-    puts "|                                                |"
-    puts "| 1. View by State.                              |"             
-    puts "| 2. View by City.                               |"
-    puts "| 3. Search by name.                             |"
-    puts "|------------------------------------------------|"
-    2.times do puts ""
+  end
+
+  def city_search
+    CLI.city_greeting
+    user_input = gets.strip
+    if Search.valid?(user_input)
+      Search.display_city(user_input)
+      Search.select_by(user_input)
+      Search.select(user_input)
+    else
+      CLI.invalid_msg
+      sleep 1
+      city_search
     end
+  end
+
+  def name_search
+    CLI.name_greeting
+    user_input = gets.strip
+     if Search.valid?(user_input)
+        Brewery.display_brewery(user_input)
+        Search.select(user_input)
+     else
+        CLI.invalid_msg
+        name_search
+     end
   end
 end
 
+GetBreweries.new.make_brewery
 Guide.new.guide
