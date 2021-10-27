@@ -58,6 +58,7 @@ class Guide
         name_search
      end
   end
+  
 end
 
 GetBreweries.new.make_brewery
